@@ -57,7 +57,7 @@ spec:
                 DOCKERHUB = credentials('Dockerhub')
             }
             steps {
-                sh "docker login -u='$DOCKERHUB_USR' -p=$DOCKERHUB_PSW"
+                sh 'docker login -u="$DOCKERHUB_USR" -p="$DOCKERHUB_PSW"'
                 sh "docker build -t rahmnathan/is-gd:${BUILD_NUMBER} ./src"
                 sh "docker build -t rahmnathan/is-gd ./src"
                 sh "docker push rahmnathan/is-gd:${BUILD_NUMBER}"
