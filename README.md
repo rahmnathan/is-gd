@@ -27,5 +27,13 @@ This project parses a file or directory of files containing urls and shortens th
 `python3 src/shorten_urls.py ./url-files/urls1.txt`
 
 
-# URL File
+# URL Files
 See the ./url-files directory for example url files.
+
+# Development
+You can build a fresh Docker image with the following command:
+`docker build -t rahmnathan/is-gd src/`
+
+### Certificate management
+If you need to provide additional ca-certificates, you can put the pem-encoded files into the src/certs/ directory and they
+will be added to the trust store at build time.
