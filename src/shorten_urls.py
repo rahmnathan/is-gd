@@ -88,7 +88,7 @@ if os.path.isfile(path):
     url_files.append(path)
 elif os.path.isdir(path):
     for file in os.listdir(path):
-        url_files.append(path + "/" + file)
+        url_files.append(os.path.join(path, file))
 
 
 url_file_count = len(url_files)

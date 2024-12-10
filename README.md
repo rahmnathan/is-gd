@@ -4,6 +4,17 @@
 
 This project parses a file or directory of files containing urls and shortens them via the https://is.gd api.
 
+# Requirements
+Docker is required to build/run this project.
+
+# Build
+You can build a fresh Docker image by executing the following command in the project's root directory:
+`docker build -t rahmnathan/url-shortener src/`
+
+### Certificate management
+If you need to provide additional ca-certificates, you can put the pem-encoded files into the src/certs/ directory and they
+will be added to the trust store during the Docker build process.
+
 # Usage
 
 ### Shell Script
@@ -12,28 +23,5 @@ This project parses a file or directory of files containing urls and shortens th
 #### Example
 `./shorten-urls.sh ./url-files/urls1.txt`
 
-
-### Docker
-`docker run -it -v <path-to-url-file-or-directory>:/mnt/url-shortener/data rahmnathan/url-shortener`
-
-#### Example
-`docker run -it -v ./url-files/urls1.txt:/mnt/url-shortener/data rahmnathan/url-shortener`
-
-
-### Python
-`python3 src/shorten_urls.py <path-to-url-file-or-directory>`
-
-#### Example
-`python3 src/shorten_urls.py ./url-files/urls1.txt`
-
-
 # URL Files
-See the ./url-files directory for example url files.
-
-# Development
-You can build a fresh Docker image with the following command:
-`docker build -t rahmnathan/url-shortener src/`
-
-### Certificate management
-If you need to provide additional ca-certificates, you can put the pem-encoded files into the src/certs/ directory and they
-will be added to the trust store during the Docker build process.
+See the `./url-files` directory for example url files.
