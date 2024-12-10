@@ -19,5 +19,11 @@ if [ ! -f "$path" ] && [ ! -d "$path" ]; then
     exit 1
 fi
 
+# Format path properly for Docker volume mount
+case "$path" in
+    ("/"* | "."*) ;;
+    (*) path="./${path}"
+esac
+
 
 docker run -it -v "$path":/mnt/url-shortener/data rahmnathan/url-shortener
