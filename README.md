@@ -14,10 +14,10 @@ This project parses a file or directory of files containing urls and shortens th
 
 
 ### Docker
-`docker run -it -v <path-to-url-file-or-directory>:/mnt/url-shortener/data rahmnathan/is-gd`
+`docker run -it -v <path-to-url-file-or-directory>:/mnt/url-shortener/data rahmnathan/url-shortener`
 
 #### Example
-`docker run -it -v ./url-files/urls1.txt:/mnt/url-shortener/data rahmnathan/is-gd`
+`docker run -it -v ./url-files/urls1.txt:/mnt/url-shortener/data rahmnathan/url-shortener`
 
 
 ### Python
@@ -32,7 +32,7 @@ See the ./url-files directory for example url files.
 
 # Development
 You can build a fresh Docker image with the following command:
-`docker build -t rahmnathan/is-gd src/`
+`docker build -t rahmnathan/url-shortener src/`
 
 ### Certificate management
 If you need to provide additional ca-certificates, you can put the pem-encoded files into the src/certs/ directory and they

@@ -32,7 +32,7 @@ spec:
                           branches         : [[name: '*/main']],
                           extensions       : scm.extensions,
                           userRemoteConfigs: [[
-                                                      url          : 'git@github.com:rahmnathan/is-gd.git',
+                                                      url          : 'git@github.com:rahmnathan/url-shortener.git',
                                                       credentialsId: 'Github-Git'
                                               ]]
                 ])
@@ -58,10 +58,10 @@ spec:
             }
             steps {
                 sh 'docker login -u="$DOCKERHUB_USR" -p="$DOCKERHUB_PSW"'
-                sh "docker build -t rahmnathan/is-gd:${BUILD_NUMBER} ./src"
-                sh "docker build -t rahmnathan/is-gd ./src"
-                sh "docker push rahmnathan/is-gd:${BUILD_NUMBER}"
-                sh "docker push rahmnathan/is-gd"
+                sh "docker build -t rahmnathan/url-shortener:${BUILD_NUMBER} ./src"
+                sh "docker build -t rahmnathan/url-shortener ./src"
+                sh "docker push rahmnathan/url-shortener:${BUILD_NUMBER}"
+                sh "docker push rahmnathan/url-shortener"
             }
         }
     }

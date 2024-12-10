@@ -20,4 +20,4 @@ if [ ! -f "$path" ] && [ ! -d "$path" ]; then
 fi
 
 
-docker run -it -v "$path":/mnt/url-shortener/data rahmnathan/is-gd
+docker run -it -v "$path":/mnt/url-shortener/data rahmnathan/url-shortener
