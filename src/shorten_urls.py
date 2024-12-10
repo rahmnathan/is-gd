@@ -9,28 +9,12 @@ from requests import RequestException
 
 is_gd_api_url = "https://is.gd/create.php"
 
-seconds_per_hour = 3600
-
 
 ## is.gd has a 200req/hr rate limit
 is_gd_requests_per_hour = 200
 is_gd_requests_current = 0
 is_gd_chunk_start = datetime.now()
-
-
-# call is.gd to shorten the provided URL
-def shorten_url(url):
-    params = {
-        'format': 'simple',
-        'url': url
-    }
-
-    try:
-        response = requests.get(is_gd_api_url, params=params)
-        response.raise_for_status()
-        return response.text
-    except RequestException as e:
-        print(f"Failure shortening url {url}: {e}")
+seconds_per_hour = 3600
 
 
 # Make sure we honor is.gd's rate limit
@@ -52,6 +36,21 @@ def honor_rate_limit():
         is_gd_requests_current = 0
 
 
+# call is.gd to shorten the provided URL
+def shorten_url(url):
+    params = {
+        'format': 'simple',
+        'url': url
+    }
+
+    try:
+        response = requests.get(is_gd_api_url, params=params)
+        response.raise_for_status()
+        return response.text
+    except RequestException as e:
+        print(f"Failure shortening url {url}: {e}")
+
+
 # Shorten the URLs in a given file
 def shorten_urls(file_path):
     global is_gd_requests_current
@@ -65,8 +64,6 @@ def shorten_urls(file_path):
                 is_gd_requests_current += 1
                 if short_url:
                     print(f"{short_url}, {url}")
-                else:
-                    print(f"Unable to shorten url: {url}")
 
 
 # Define and parse arguments

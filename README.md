@@ -9,11 +9,23 @@ This project parses a file or directory of files containing urls and shortens th
 ### Shell Script
 `./shorten-urls.sh <path-to-url-file-or-directory>`
 
+#### Example
+`./shorten-urls.sh ./url-files/urls1.txt`
+
+
 ### Docker
 `docker run -it -v <path-to-url-file-or-directory>:/mnt/url-shortener/data rahmnathan/is-gd`
 
+#### Example
+`docker run -it -v ./url-files/urls1.txt:/mnt/url-shortener/data rahmnathan/is-gd`
+
+
 ### Python
 `python3 src/shorten_urls.py <path-to-url-file-or-directory>`
+
+#### Example
+`python3 src/shorten_urls.py ./url-files/urls1.txt`
+
 
 # URL File
 See the ./url-files directory for example url files.
