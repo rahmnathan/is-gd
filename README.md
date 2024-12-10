@@ -36,4 +36,4 @@ You can build a fresh Docker image with the following command:
 
 ### Certificate management
 If you need to provide additional ca-certificates, you can put the pem-encoded files into the src/certs/ directory and they
-will be added to the trust store at build time.
+will be added to the trust store during the Docker build process.
