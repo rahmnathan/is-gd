@@ -1,6 +1,6 @@
 <h1>URL Shortener</h1>
 
-[![Build Status](http://jenkins.nathanrahm.com/buildStatus/icon?job=is-gd)](https://jenkins.nathanrahm.com/job/is-gd/)
+[![Build Status](http://jenkins.nathanrahm.com/buildStatus/icon?job=url-shortener)](https://jenkins.nathanrahm.com/job/url-shortener/)
 
 This project parses a file or directory of files containing urls and shortens them via the https://is.gd api.
 
