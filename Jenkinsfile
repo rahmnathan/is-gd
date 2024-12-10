@@ -28,9 +28,14 @@ spec:
     stages {
         stage('Checkout') {
             steps {
-                script {
-                    git 'https://github.com/rahmnathan/is-gd.git'
-                }
+                checkout([$class           : 'GitSCM',
+                          branches         : [[name: '*/main']],
+                          extensions       : scm.extensions,
+                          userRemoteConfigs: [[
+                                                      url          : 'git@github.com:rahmnathan/is-gd.git',
+                                                      credentialsId: 'Github-Git'
+                                              ]]
+                ])
             }
         }
         stage('Tag') {
