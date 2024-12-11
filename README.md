@@ -12,7 +12,7 @@ You can build a fresh Docker image by executing the following command in the pro
 `docker build -t rahmnathan/url-shortener src/`
 
 ### Certificate management
-If you need to provide additional ca-certificates, you can put the pem-encoded files into the src/certs/ directory and they
+If you need to provide additional ca-certificates, you can put the pem-encoded files into the `src/certs/` directory and they
 will be added to the trust store during the Docker build process.
 
 # Usage
