@@ -16,6 +16,9 @@ is_gd_requests_current = 0
 is_gd_chunk_start = datetime.now()
 seconds_per_hour = 3600
 
+# Keep track of urls we've processed to avoid duplicates
+processed_urls = set()
+
 
 # Make sure we honor is.gd's rate limit
 def honor_rate_limit():
@@ -56,13 +59,18 @@ def shorten_urls(file_path):
     global is_gd_requests_current
     with open(file_path, 'r') as url_file:
         for line in url_file:
-            honor_rate_limit()
-
             url = line.strip()
             if url:
+                # If we've already shortened this url, skip to the next
+                if url in processed_urls:
+                    continue
+
+                honor_rate_limit()
+
                 short_url = shorten_url(url)
                 is_gd_requests_current += 1
                 if short_url:
+                    processed_urls.add(url)
                     print(f"{short_url}, {url}")
 
 
@@ -93,7 +101,8 @@ elif os.path.isdir(path):
 
 url_file_count = len(url_files)
 
-print(f"Found {url_file_count} files at {path} to process.")
+# Useful log statement, but arguably violates the provided requirements
+# print(f"Found {url_file_count} files at {path} to process.")
 
 
 ### Single threaded url shortening
