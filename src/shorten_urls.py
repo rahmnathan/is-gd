@@ -10,33 +10,21 @@ from requests import RequestException
 is_gd_api_url = "https://is.gd/create.php"
 
 
-## is.gd has a 200req/hr rate limit
-is_gd_requests_per_hour = 200
-is_gd_requests_current = 0
-is_gd_chunk_start = datetime.now()
-seconds_per_hour = 3600
+seconds_between_retries = 60
+retry_count = 60
 
 # Keep track of urls we've processed to avoid duplicates
 processed_urls = set()
 
 
-# Make sure we honor is.gd's rate limit
-def honor_rate_limit():
-    global is_gd_chunk_start
-    global is_gd_requests_current
+# Determine if we should retry a request
+def is_recoverable_error(response):
+    if response:
+        status_code = response.status_code
+        if status_code >= 500:
+            return True
 
-    if is_gd_requests_per_hour - is_gd_requests_current == 0:
-        duration = datetime.now() - is_gd_chunk_start
-        if duration.seconds < seconds_per_hour:
-            print(f"We've reached is.gd's hourly limit.")
-            sleep_time = (seconds_per_hour - duration.seconds) + 2 # 2 second padding just to be safe
-            print(f"Sleeping for {sleep_time} seconds before continuing requests.")
-            sleep(sleep_time)
-            print("Resuming url shortening")
-
-        # Reset rate-limiting params
-        is_gd_chunk_start = datetime.now()
-        is_gd_requests_current = 0
+    return False
 
 
 # call is.gd to shorten the provided URL
@@ -46,17 +34,25 @@ def shorten_url(url):
         'url': url
     }
 
-    try:
-        response = requests.get(is_gd_api_url, params=params)
-        response.raise_for_status()
-        return response.text
-    except RequestException as e:
-        print(f"Failure shortening url {url}: {e}")
+    attempt_request = True
+    request_attempts = 0
+
+    while attempt_request and request_attempts < retry_count:
+        try:
+            response = requests.get(is_gd_api_url, params=params)
+            response.raise_for_status()
+            return response.text
+        except RequestException as e:
+            print(f"Failure shortening url {url}: {e}")
+            attempt_request = is_recoverable_error(e.response)
+            if attempt_request:
+                request_attempts += 1
+                print(f"Error appears recoverable. Will retry in {seconds_between_retries} seconds. Attempts remaining {retry_count - request_attempts}.")
+                sleep(seconds_between_retries)
 
 
 # Shorten the URLs in a given file
 def shorten_urls(file_path):
-    global is_gd_requests_current
     with open(file_path, 'r') as url_file:
         for line in url_file:
             url = line.strip()
@@ -65,10 +61,7 @@ def shorten_urls(file_path):
                 if url in processed_urls:
                     continue
 
-                honor_rate_limit()
-
                 short_url = shorten_url(url)
-                is_gd_requests_current += 1
                 if short_url:
                     processed_urls.add(url)
                     print(f"{short_url}, {url}")
