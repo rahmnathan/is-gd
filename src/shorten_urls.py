@@ -3,7 +3,6 @@ import sys
 import os
 import requests
 
-from datetime import datetime
 from time import sleep
 from requests import RequestException
 
