@@ -18,11 +18,9 @@ processed_urls = set()
 
 
 # Determine if we should retry a request
-def is_recoverable_error(response):
-    if response:
-        status_code = response.status_code
-        if status_code >= 500:
-            return True
+def is_recoverable_error(status_code):
+    if status_code and status_code >= 500:
+        return True
 
     return False
 
@@ -44,7 +42,7 @@ def shorten_url(url):
             return response.text
         except RequestException as e:
             print(f"Failure shortening url {url}: {e}")
-            attempt_request = is_recoverable_error(e.response)
+            attempt_request = is_recoverable_error(e.response.status_code)
             if attempt_request:
                 request_attempts += 1
                 print(f"Error appears recoverable. Will retry in {seconds_between_retries} seconds. Attempts remaining {retry_count - request_attempts}.")
